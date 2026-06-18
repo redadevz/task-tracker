@@ -14,10 +14,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class)->constrained()->cascadeOnDelete();
-            $table->string('title');
-            $table->enum('status', ['todo', 'in-progress', 'done']);
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->string('description');
+            $table->enum('status', ['todo', 'in-progress', 'done'])->default('todo');
             $table->timestamps();
+
+            $table->index(['user_id', 'status']);
         });
     }
 

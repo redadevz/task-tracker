@@ -15,8 +15,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+    $tasks = $request->user()->tasks();
+
+    return Inertia::render('Dashboard', [
+        'stats' => [
+            'total'      => (clone $tasks)->count(),
+            'todo'       => (clone $tasks)->where('status', 'todo')->count(),
+            'inProgress' => (clone $tasks)->where('status', 'in-progress')->count(),
+            'done'       => (clone $tasks)->where('status', 'done')->count(),
+        ],
+        'recent' => $request->user()->tasks()->latest()->take(5)->get(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

@@ -2,7 +2,7 @@
 
 A task management application built with Laravel.
 
-**Project URL:** https://github.com/redadevz/task-tracker
+**Project URL:** https://roadmap.sh/projects/task-tracker
 
 ---
 
